@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "rocketseat-nlw-agents",
   "private": true,
   "scripts": {
     "build": "turbo run build",
