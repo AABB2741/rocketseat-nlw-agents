@@ -1,135 +1,63 @@
-# Turborepo starter
+# NLW Agents
 
-This Turborepo starter is maintained by the Turborepo core team.
+Este projeto foi desenvolvido durante o evento NLW da Rocketseat.
 
-## Using this example
+## Tecnologias e Bibliotecas Utilizadas
 
-Run the following command:
+- **Monorepo:** Gerenciado com [Turborepo](https://turbo.build/)
+- **Gerenciador de pacotes:** [pnpm](https://pnpm.io/)
+- **Backend:**
+  - [Fastify](https://fastify.dev/) — framework web para Node.js
+  - [drizzle-orm](https://orm.drizzle.team/) — ORM para TypeScript
+  - [drizzle-kit](https://orm.drizzle.team/docs/overview/drizzle-kit) — ferramenta de migrations
+  - [zod](https://zod.dev/) — validação de schemas
+  - [postgres](https://github.com/porsager/postgres) — driver PostgreSQL
+- **Frontend:**
+  - [React](https://react.dev/)
+  - [Vite](https://vitejs.dev/) — bundler e dev server
+  - [Tailwind CSS](https://tailwindcss.com/) — utilitários de CSS
+  - [@tanstack/react-query](https://tanstack.com/query/latest) — gerenciamento de dados assíncronos
+  - [@tanstack/react-router](https://tanstack.com/router/latest) — roteamento
+- **Lint:** [Biome](https://biomejs.dev/)
 
-```sh
-npx create-turbo@latest
-```
+## Padrões de Projeto
 
-## What's inside?
+- Estrutura monorepo (apps/web e apps/server)
+- Backend orientado a rotas e validação com Zod
+- Frontend com componentes reutilizáveis e hooks
+- Migrations e schema versionados com Drizzle ORM
 
-This Turborepo includes the following packages/apps:
+## Setup e Configuração
 
-### Apps and Packages
+1. **Clone o repositório:**
+   ```sh
+   git clone https://github.com/AABB2741/rocketseat-nlw-agents.git
+   cd rocketseat-nlw-agents
+   ```
+2. **Instale as dependências:**
+   ```sh
+   pnpm install
+   ```
+3. **Configure o banco de dados:**
+   - O projeto utiliza PostgreSQL (pode ser iniciado via Docker):
+     ```sh
+     docker compose up -d
+     ```
+   - Configure a variável `DATABASE_URL` no arquivo `.env` em `apps/server`.
+4. **Rode as migrations:**
+   ```sh
+   cd apps/server
+   pnpm drizzle-kit migrate # ou comando equivalente para aplicar migrations
+   ```
+5. **Inicie o backend:**
+   ```sh
+   pnpm --filter @nlw-agents/server dev
+   ```
+6. **Inicie o frontend:**
+   ```sh
+   pnpm --filter @nlw-agents/web dev
+   ```
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+---
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+> Projeto NLW Agents — Rocketseat
