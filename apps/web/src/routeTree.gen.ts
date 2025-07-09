@@ -10,53 +10,63 @@
 
 import { Route as rootRouteImport } from './app/__root'
 import { Route as IndexRouteImport } from './app/index'
-import { Route as RoomIndexRouteImport } from './app/room/index'
-import { Route as RoomIdRouteImport } from './app/room/$id'
+import { Route as RoomsIndexRouteImport } from './app/rooms/index'
+import { Route as RoomsIdIndexRouteImport } from './app/rooms/$id/index'
+import { Route as RoomsIdAudioRouteImport } from './app/rooms/$id/audio'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RoomIndexRoute = RoomIndexRouteImport.update({
-  id: '/room/',
-  path: '/room/',
+const RoomsIndexRoute = RoomsIndexRouteImport.update({
+  id: '/rooms/',
+  path: '/rooms/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RoomIdRoute = RoomIdRouteImport.update({
-  id: '/room/$id',
-  path: '/room/$id',
+const RoomsIdIndexRoute = RoomsIdIndexRouteImport.update({
+  id: '/rooms/$id/',
+  path: '/rooms/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoomsIdAudioRoute = RoomsIdAudioRouteImport.update({
+  id: '/rooms/$id/audio',
+  path: '/rooms/$id/audio',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/room/$id': typeof RoomIdRoute
-  '/room': typeof RoomIndexRoute
+  '/rooms': typeof RoomsIndexRoute
+  '/rooms/$id/audio': typeof RoomsIdAudioRoute
+  '/rooms/$id': typeof RoomsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/room/$id': typeof RoomIdRoute
-  '/room': typeof RoomIndexRoute
+  '/rooms': typeof RoomsIndexRoute
+  '/rooms/$id/audio': typeof RoomsIdAudioRoute
+  '/rooms/$id': typeof RoomsIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/room/$id': typeof RoomIdRoute
-  '/room/': typeof RoomIndexRoute
+  '/rooms/': typeof RoomsIndexRoute
+  '/rooms/$id/audio': typeof RoomsIdAudioRoute
+  '/rooms/$id/': typeof RoomsIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/room/$id' | '/room'
+  fullPaths: '/' | '/rooms' | '/rooms/$id/audio' | '/rooms/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/room/$id' | '/room'
-  id: '__root__' | '/' | '/room/$id' | '/room/'
+  to: '/' | '/rooms' | '/rooms/$id/audio' | '/rooms/$id'
+  id: '__root__' | '/' | '/rooms/' | '/rooms/$id/audio' | '/rooms/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  RoomIdRoute: typeof RoomIdRoute
-  RoomIndexRoute: typeof RoomIndexRoute
+  RoomsIndexRoute: typeof RoomsIndexRoute
+  RoomsIdAudioRoute: typeof RoomsIdAudioRoute
+  RoomsIdIndexRoute: typeof RoomsIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,18 +78,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/room/': {
-      id: '/room/'
-      path: '/room'
-      fullPath: '/room'
-      preLoaderRoute: typeof RoomIndexRouteImport
+    '/rooms/': {
+      id: '/rooms/'
+      path: '/rooms'
+      fullPath: '/rooms'
+      preLoaderRoute: typeof RoomsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/room/$id': {
-      id: '/room/$id'
-      path: '/room/$id'
-      fullPath: '/room/$id'
-      preLoaderRoute: typeof RoomIdRouteImport
+    '/rooms/$id/': {
+      id: '/rooms/$id/'
+      path: '/rooms/$id'
+      fullPath: '/rooms/$id'
+      preLoaderRoute: typeof RoomsIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rooms/$id/audio': {
+      id: '/rooms/$id/audio'
+      path: '/rooms/$id/audio'
+      fullPath: '/rooms/$id/audio'
+      preLoaderRoute: typeof RoomsIdAudioRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -87,8 +104,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  RoomIdRoute: RoomIdRoute,
-  RoomIndexRoute: RoomIndexRoute,
+  RoomsIndexRoute: RoomsIndexRoute,
+  RoomsIdAudioRoute: RoomsIdAudioRoute,
+  RoomsIdIndexRoute: RoomsIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
