@@ -11,7 +11,7 @@ export const getRoomQuestionsRoute: FastifyPluginCallbackZod = (app) => {
     {
       schema: {
         params: z.object({
-          roomId: z.string().uuid(),
+          roomId: z.uuid(),
         }),
       },
     },

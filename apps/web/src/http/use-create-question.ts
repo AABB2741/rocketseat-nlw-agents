@@ -1,0 +1,36 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import type { CreateQuestionRequest } from "./types/create-question-request";
+import type { CreateQuestionResponse } from "./types/create-question-response";
+
+export function useCreateQuestion(roomId: string) {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async ({ question }: CreateQuestionRequest) => {
+      const response = await fetch(
+        `http://localhost:3333/rooms/${roomId}/questions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ question }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erro ao criar a sala");
+      }
+
+      const result: CreateQuestionResponse = await response.json();
+
+      return result;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["questions", { roomId }] });
+    },
+  });
+
+  return { ...mutation, createQuestionFn: mutation.mutateAsync };
+}
